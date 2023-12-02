@@ -239,6 +239,14 @@ fun LoginUser(
                 fontWeight = FontWeight.Bold
             )
         }
+        // buat spacer
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            text = "Log in as Merchant",
+            fontSize = 20.sp,
+            color = Color.Blue,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
