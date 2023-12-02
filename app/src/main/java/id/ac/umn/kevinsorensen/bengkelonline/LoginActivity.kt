@@ -43,13 +43,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import id.ac.umn.kevinsorensen.bengkelonline.datamodel.User
+import id.ac.umn.kevinsorensen.bengkelonline.viewmodels.LoginState
 import id.ac.umn.kevinsorensen.bengkelonline.viewmodels.LoginViewModel
 
 @Composable
 fun LoginActivity(
-
+    loginState: LoginState, loginViewModel: LoginViewModel
 ) {
-
     Column (
         verticalArrangement = Arrangement.Top,
         modifier = Modifier
@@ -69,58 +69,25 @@ fun LoginActivity(
         modifier = Modifier
             .fillMaxSize()
     ){
-        TabLayout()
-    }
-}
-
-@Composable
-fun TabLayout(loginViewModel: LoginViewModel = viewModel()) {
-    val loginState by loginViewModel.uiState.collectAsState();
-    val tabs = listOf("User", "Bengkel")
-
-    Column (
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 120.dp)
-            .height(300.dp)
-            .background(Color.White)
-    ) {
-        TabRow (
-            selectedTabIndex = loginState.pageIndex
-        ) {
-            tabs.forEachIndexed {
-                index, title ->
-                    Tab(text = { Text(title) },
-                        selected = loginState.pageIndex == index,
-                        onClick = {
-                            loginViewModel.changePage(index)
-                        }
-                    )
-            }
-        }
-        when (loginState.pageIndex) {
-            0 -> LoginUser(
-                errorMessage = loginState.error,
-                user = loginState.user,
-                emailOrUsername = loginViewModel.inputEmailOrUsername,
-                password = loginViewModel.inputPassword,
-                passwordVisible = loginViewModel.passwordVisibility,
-                onLogin = { loginViewModel.login() },
-                togglePasswordVisibility = { loginViewModel.togglePasswordVisibility() },
-                updateEmailOrUsername = { loginViewModel.updateEmailOrUsername(it) },
-                updatePassword = { loginViewModel.updatePassword(it) }
-            )
-
-            1 -> LoginMerchant()
-        }
+        LoginUser(
+            loginViewModel = loginViewModel,
+            errorMessage = loginState.error,
+            user = loginState.user,
+            emailOrUsername = loginViewModel.inputEmailOrUsername,
+            password = loginViewModel.inputPassword,
+            passwordVisible = loginViewModel.passwordVisibility,
+            onLogin = { loginViewModel.login() },
+            togglePasswordVisibility = { loginViewModel.togglePasswordVisibility() },
+            updateEmailOrUsername = { loginViewModel.updateEmailOrUsername(it) },
+            updatePassword = { loginViewModel.updatePassword(it) }
+        )
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginUser(
+    loginViewModel: LoginViewModel = viewModel(),
     errorMessage: String = "",
     user: User? = null,
     emailOrUsername: String = "",
@@ -153,7 +120,7 @@ fun LoginUser(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 10.dp)
+            .padding(top = 120.dp)
     ) {
         TextField (
             value = emailOrUsername,
@@ -275,6 +242,54 @@ fun LoginUser(
     }
 }
 
+/*
+@Composable
+fun TabLayout(loginViewModel: LoginViewModel = viewModel()) {
+    val loginState by loginViewModel.uiState.collectAsState();
+    val tabs = listOf("User", "Bengkel")
+
+    Column (
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 120.dp)
+            .height(300.dp)
+            .background(Color.White)
+    ) {
+        TabRow (
+            selectedTabIndex = loginState.pageIndex
+        ) {
+            tabs.forEachIndexed {
+                index, title ->
+                    Tab(text = { Text(title) },
+                        selected = loginState.pageIndex == index,
+                        onClick = {
+                            loginViewModel.changePage(index)
+                        }
+                    )
+            }
+        }
+        when (loginState.pageIndex) {
+            0 -> LoginUser(
+                errorMessage = loginState.error,
+                user = loginState.user,
+                emailOrUsername = loginViewModel.inputEmailOrUsername,
+                password = loginViewModel.inputPassword,
+                passwordVisible = loginViewModel.passwordVisibility,
+                onLogin = { loginViewModel.login() },
+                togglePasswordVisibility = { loginViewModel.togglePasswordVisibility() },
+                updateEmailOrUsername = { loginViewModel.updateEmailOrUsername(it) },
+                updatePassword = { loginViewModel.updatePassword(it) }
+            )
+
+            1 -> LoginMerchant()
+        }
+    }
+}
+ */
+
+/*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginMerchant() {
@@ -408,3 +423,5 @@ fun LoginMerchant() {
         }
     }
 }
+
+ */

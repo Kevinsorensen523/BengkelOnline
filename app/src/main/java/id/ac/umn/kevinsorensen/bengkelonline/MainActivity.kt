@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
+import id.ac.umn.kevinsorensen.bengkelonline.viewmodels.LoginState
+import id.ac.umn.kevinsorensen.bengkelonline.viewmodels.LoginViewModel
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.P)
@@ -12,7 +14,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            LoginActivity()
+            val loginState = LoginState()
+            val loginViewModel = LoginViewModel()
+            LoginActivity(loginState = loginState, loginViewModel = loginViewModel)
         }
     }
 
